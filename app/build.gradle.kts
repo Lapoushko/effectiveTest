@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
+    kotlin("plugin.serialization") version "2.0.0"
 }
 
 android {
@@ -61,6 +62,9 @@ dependencies {
 
     //Navigation
     implementation(libs.androidx.navigation.compose)
+
+    //Serialization
+    implementation(libs.kotlinx.serialization.json.jvm)
 
     //DI
     implementation(libs.hilt.android)

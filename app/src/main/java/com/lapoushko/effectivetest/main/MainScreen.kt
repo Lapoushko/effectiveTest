@@ -46,7 +46,6 @@ fun MainScreen(
     viewModel: MainScreenViewModel = hiltViewModel()
 ) {
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
         containerColor = Black,
     ) { innerPadding ->
         val vacancies = viewModel.state.vacancies
@@ -56,11 +55,11 @@ fun MainScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
+                .padding(innerPadding),
         ) {
             Column {
                 Column(
                     modifier = Modifier
-                        .padding(innerPadding)
                         .padding(horizontal = standardPadding),
                     verticalArrangement = Arrangement.spacedBy(standardPadding)
                 ) {

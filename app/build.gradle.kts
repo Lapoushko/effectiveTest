@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.dagger.hilt.android")
+    id("kotlin-parcelize")
     id("com.google.devtools.ksp")
     kotlin("plugin.serialization") version "2.0.0"
 }
@@ -13,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "com.lapoushko.effectivetest"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"

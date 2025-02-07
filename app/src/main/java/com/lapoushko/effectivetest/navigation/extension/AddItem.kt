@@ -51,9 +51,9 @@ fun RowScope.AddItem(
                         if (badges > 0) {
                             Badge(
                                 containerColor = Color.Red,
-                                contentColor = Color.Black
+                                contentColor = Color.White
                             ) {
-                                Text("$badges")
+                                Text(text = "$badges", style = Typography.labelSmall)
                             }
                         }
                     }

@@ -13,8 +13,6 @@ hiltAndroid = "2.52"
 hiltAndroidCompiler = "2.51.1"
 hiltNavigationCompose = "1.2.0"
 kotlinxSerializationJsonJvm = "1.6.3"
-appcompat = "1.7.0"
-material = "1.12.0"
 jetbrainsKotlinJvm = "2.0.0"
 
 [libraries]
@@ -37,8 +35,6 @@ androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-com
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroidCompiler" }
 kotlinx-serialization-json-jvm = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm", version.ref = "kotlinxSerializationJsonJvm" }
-androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

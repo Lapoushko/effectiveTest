@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
 import com.lapoushko.effectivetest.R
 import com.lapoushko.effectivetest.component.CustomSearchBar
 import com.lapoushko.effectivetest.component.RecommendationBlock
@@ -36,6 +37,7 @@ import com.lapoushko.effectivetest.ui.theme.Typography
 import com.lapoushko.effectivetest.ui.theme.White
 import com.lapoushko.effectivetest.ui.theme.sizeIcon
 import com.lapoushko.effectivetest.ui.theme.standardPadding
+import com.lapoushko.effectivetest.util.getDeclination
 
 /**
  * @author Lapoushko
@@ -43,13 +45,14 @@ import com.lapoushko.effectivetest.ui.theme.standardPadding
 
 @Composable
 fun MainScreen(
-    viewModel: MainScreenViewModel = hiltViewModel()
+    viewModel: MainScreenViewModel = hiltViewModel(),
+    handler: MainScreenHandler
 ) {
+    val vacancies = viewModel.state.vacancies
+    val offers = viewModel.state.offers
     Scaffold(
         containerColor = Black,
     ) { innerPadding ->
-        val vacancies = viewModel.state.vacancies
-        val offers = viewModel.state.offers
         Column(
             verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
@@ -79,7 +82,7 @@ fun MainScreen(
                         }
                     )
                     LazyRow {
-                        items(offers){ offer ->
+                        items(offers) { offer ->
                             RecommendationBlock(offer)
                             Spacer(Modifier.width(8.dp))
                         }
@@ -98,13 +101,14 @@ fun MainScreen(
                 ) {
                     Text("Вакансии для вас", style = Typography.titleMedium, color = White)
                     vacancies.forEach { vacancy ->
-                        VacancyCard(vacancy, onClick = {})
+                        VacancyCard(vacancy, onClick = { handler.onToDetail(vacancy) })
                     }
                 }
                 Spacer(
                     Modifier
                         .fillMaxWidth()
-                        .height(24.dp))
+                        .height(24.dp)
+                )
             }
             Button(
                 modifier = Modifier
@@ -115,9 +119,13 @@ fun MainScreen(
                     contentColor = White,
                 ),
                 shape = RoundedCornerShape(8.dp),
-                onClick = {},
+                onClick = { handler.onToSelection() },
             ) {
-                Text(text = "Ещё ${vacancies.size} вакансии")
+                Text(
+                    text = "Ещё ${vacancies.size} ${getDeclination(vacancies.size, "вакансия")}",
+                    style = Typography.bodyMedium,
+                    color = White
+                )
             }
         }
     }
@@ -126,5 +134,5 @@ fun MainScreen(
 @Preview(showBackground = true)
 @Composable
 fun MainScreenPreview() {
-    MainScreen()
+    MainScreen(handler = MainScreenHandler(rememberNavController()))
 }

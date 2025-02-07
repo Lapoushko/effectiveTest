@@ -3,11 +3,11 @@
 package com.lapoushko.effectivetest.component
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.lapoushko.effectivetest.R
@@ -40,9 +41,14 @@ fun CustomSearchBar(
     Row(
         modifier = Modifier
             .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        SearchInputField(text, leadingIcon)
+        Box(
+            modifier = Modifier
+                .weight(1f)
+        ) {
+            SearchInputField(text, leadingIcon)
+        }
         FilterButton()
     }
 }
@@ -57,10 +63,12 @@ fun SearchInputField(
         onValueChange = {},
         modifier = Modifier
             .height(60.dp)
-            .width(280.dp),
-        placeholder = { Text(text = text, style = Typography.bodyMedium) },
+            .fillMaxWidth(),
+        placeholder = {
+            Text(text = text, style = Typography.bodyMedium, overflow = TextOverflow.Ellipsis) },
         leadingIcon = leadingIcon,
         shape = miniShape,
+        maxLines = 1,
         colors = TextFieldDefaults.colors(
             unfocusedContainerColor = Grey2,
             focusedContainerColor = Grey2,

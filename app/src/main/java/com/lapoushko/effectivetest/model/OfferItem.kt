@@ -1,5 +1,6 @@
 package com.lapoushko.effectivetest.model
 
+import android.net.Uri
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -18,8 +19,9 @@ import com.lapoushko.effectivetest.ui.theme.Green
  */
 class OfferItem(
     val id: String,
-    val text: String,
-    val buttonText: String
+    val title: String,
+    val button: String,
+    val link: Uri
 )
 
 enum class Recommendations(val id: String, val icon: @Composable (() -> Unit)) {

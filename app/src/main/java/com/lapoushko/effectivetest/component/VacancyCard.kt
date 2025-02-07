@@ -32,6 +32,8 @@ import com.lapoushko.effectivetest.ui.theme.Grey3
 import com.lapoushko.effectivetest.ui.theme.Typography
 import com.lapoushko.effectivetest.ui.theme.White
 import com.lapoushko.effectivetest.ui.theme.standardPadding
+import com.lapoushko.effectivetest.util.formatDate
+import com.lapoushko.effectivetest.util.getDeclination
 
 /**
  * @author Lapoushko
@@ -128,7 +130,7 @@ fun VacancyCard(
                 contentColor = White
             ),
             shape = RoundedCornerShape(50.dp),
-            onClick = {}
+            onClick = {onClick()}
         ) {
             Text(text = "Откликнуться", style = Typography.bodyMedium)
         }
@@ -141,12 +143,12 @@ fun VacancyCardPreview() {
     VacancyCard(
         VacancyItem(
             id = "",
-            lookingNumber = "Сейчас просматривает 1 человек",
+            lookingNumber = "Сейчас просматривает 3 ${getDeclination(3,"человек")}",
             title = "UI/UX Designer",
             address = AddressItem(town = "Минск", street = "улица Бирюзова", house = "4/5"),
             company = "Мобирикс",
             experience = ExperienceItem("Опыт от 1 до 3 лет", "1–3 года"),
-            publishDate = "Опубликовано 20 февраля",
+            publishDate = "Опубликовано ${formatDate("2024-02-20")}",
             salary = "1500-2900 Br"
         ),
         onClick = {}

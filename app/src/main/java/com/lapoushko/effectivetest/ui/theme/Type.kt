@@ -47,6 +47,12 @@ val Typography = Typography(
         fontWeight = FontWeight.Black,
         fontSize = 10.sp
     ),
+    labelSmall = TextStyle(
+        fontFamily = FontFamily(Font(R.font.sf_pro_display_regular)),
+        fontWeight = FontWeight.Black,
+        fontSize = 7.sp,
+        color = White
+    )
     /* Other default text styles to override
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,

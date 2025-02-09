@@ -53,7 +53,6 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(project(":domain"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -67,6 +66,10 @@ dependencies {
 
     //Serialization
     implementation(libs.kotlinx.serialization.json.jvm)
+
+    //Layers
+    implementation(project(":domain"))
+    implementation(project(":data"))
 
     //DI
     implementation(libs.hilt.android)

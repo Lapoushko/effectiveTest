@@ -1,6 +1,7 @@
 package com.lapoushko.effectivetest.main
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -35,7 +36,9 @@ class MainScreenViewModel @Inject constructor(
 
     private fun loadVacancies(){
         viewModelScope.launch {
-            _state.vacancies = vacancyUseCase.getVacancies().map { vacancyMapper.toUi(it) }.take(3)
+            val vacancies = vacancyUseCase.getVacancies().map { vacancyMapper.toUi(it) }
+            _state.vacancies = vacancies.take(3)
+            _state.countVacancies = vacancies.size
         }
     }
 
@@ -48,6 +51,7 @@ class MainScreenViewModel @Inject constructor(
 
     private class MutableMainScreenState : MainScreenState {
         override var vacancies: List<VacancyItem> by mutableStateOf(emptyList())
+        override var countVacancies: Int by mutableIntStateOf(0)
         override var offers: List<OfferItem> by mutableStateOf(emptyList())
     }
 }

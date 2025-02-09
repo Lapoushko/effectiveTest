@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.compose.rememberNavController
 import com.lapoushko.effectivetest.component.VacancyCard
 import com.lapoushko.effectivetest.ui.theme.Black
 import com.lapoushko.effectivetest.ui.theme.Grey3
@@ -30,7 +31,8 @@ import com.lapoushko.effectivetest.util.getDeclination
 
 @Composable
 fun FavouriteScreen(
-    viewModel: FavouriteScreenViewModel = hiltViewModel()
+    viewModel: FavouriteScreenViewModel = hiltViewModel(),
+    handler: FavouriteScreenHandler
 ) {
     val vacancies = viewModel.state.vacancies
     Scaffold(
@@ -73,7 +75,7 @@ fun FavouriteScreen(
                         color = Grey3
                     )
                     vacancies.forEach { vacancy ->
-                        VacancyCard(vacancy, onClick = {})
+                        VacancyCard(vacancy, onClick = {handler.onToDetail(vacancy)})
                     }
                 }
                 Spacer(
@@ -89,5 +91,5 @@ fun FavouriteScreen(
 @Preview
 @Composable
 fun FavouriteScreenPreview() {
-    FavouriteScreen()
+    FavouriteScreen(handler = FavouriteScreenHandler(rememberNavController()))
 }

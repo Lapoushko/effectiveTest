@@ -57,11 +57,6 @@ fun SelectionScreen(
                         .padding(horizontal = standardPadding),
                     verticalArrangement = Arrangement.spacedBy(standardPadding)
                 ) {
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(32.dp)
-                    )
                     CustomSearchBar(
                         text = "Должность по подходящим вакансиям",
                         leadingIcon = {

@@ -50,6 +50,7 @@ fun MainScreen(
 ) {
     val vacancies = viewModel.state.vacancies
     val offers = viewModel.state.offers
+    val countVacancies = viewModel.state.countVacancies
     Scaffold(
         containerColor = Black,
     ) { innerPadding ->
@@ -66,11 +67,6 @@ fun MainScreen(
                         .padding(horizontal = standardPadding),
                     verticalArrangement = Arrangement.spacedBy(standardPadding)
                 ) {
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(32.dp)
-                    )
                     CustomSearchBar(text = "Должность, ключевые слова",
                         leadingIcon = {
                             Icon(
@@ -122,7 +118,7 @@ fun MainScreen(
                 onClick = { handler.onToSelection() },
             ) {
                 Text(
-                    text = "Ещё ${vacancies.size} ${getDeclination(vacancies.size, "вакансия")}",
+                    text = "Ещё $countVacancies ${getDeclination(countVacancies, "вакансия")}",
                     style = Typography.bodyMedium,
                     color = White
                 )

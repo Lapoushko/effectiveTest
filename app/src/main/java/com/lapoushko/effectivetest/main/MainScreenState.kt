@@ -8,5 +8,6 @@ import com.lapoushko.effectivetest.model.VacancyItem
  */
 interface MainScreenState{
     val vacancies: List<VacancyItem>
+    val countVacancies: Int
     val offers: List<OfferItem>
 }

@@ -48,14 +48,16 @@ fun RecommendationBlock(recommendation: OfferItem) {
             containerColor = Grey1
         )
     ) {
-        Column(modifier = Modifier.padding(start = 8.dp, end = 12.dp).fillMaxWidth()) {
+        Column(modifier = Modifier
+            .padding(start = 8.dp, end = 12.dp)
+            .fillMaxWidth()) {
             Spacer(Modifier.height(10.dp))
             if (recommendation.id.getIconRecommendation() != null) {
                 recommendation.id.getIconRecommendation()?.invoke()
                 Spacer(Modifier.height(16.dp))
             }
             Text(
-                text = recommendation.title,
+                text = recommendation.title.trim(),
                 fontSize = 14.sp,
                 fontFamily = FontFamily(Font(R.font.sf_pro_display_medium)),
                 color = White,
@@ -64,8 +66,8 @@ fun RecommendationBlock(recommendation: OfferItem) {
             )
             if (recommendation.button.isNotEmpty()) {
                 Text(
-                    modifier = Modifier.clickable {  },
-                    text = recommendation.button,
+                    modifier = Modifier.clickable { },
+                    text = recommendation.button.trim(),
                     color = Green,
                     style = Typography.bodyMedium,
                 )
@@ -77,5 +79,12 @@ fun RecommendationBlock(recommendation: OfferItem) {
 @Preview
 @Composable
 fun RecommendationBlockPreview() {
-    RecommendationBlock(OfferItem(id = "temporary_job", title = "Поднять резюме в поиске", "Поднять",Uri.parse("https://hh.ru/")))
+    RecommendationBlock(
+        OfferItem(
+            id = "temporary_job",
+            title = "Поднять резюме в поиске",
+            "Поднять",
+            Uri.parse("https://hh.ru/")
+        )
+    )
 }

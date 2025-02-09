@@ -65,7 +65,9 @@ fun VacancyCard(
                     ) {
                         Text(text = lookingNumber, color = Green, style = Typography.bodyMedium)
                         Icon(
-                            modifier = Modifier.size(24.dp).clickable { onClick() },
+                            modifier = Modifier
+                                .size(24.dp)
+                                .clickable { onClick() },
                             contentDescription = null,
                             painter = painterResource(R.drawable.favourite_not_active)
                         )
@@ -78,7 +80,9 @@ fun VacancyCard(
                     Text(text = title, color = White, style = Typography.titleSmall)
                     if (lookingNumber.isEmpty()) {
                         Icon(
-                            modifier = Modifier.size(24.dp).clickable { onClick() },
+                            modifier = Modifier
+                                .size(24.dp)
+                                .clickable { onClick() },
                             contentDescription = null,
                             painter = painterResource(R.drawable.favourite_not_active)
                         )
@@ -130,7 +134,7 @@ fun VacancyCard(
                 contentColor = White
             ),
             shape = RoundedCornerShape(50.dp),
-            onClick = {onClick()}
+            onClick = { onClick() }
         ) {
             Text(text = "Откликнуться", style = Typography.bodyMedium)
         }
@@ -143,7 +147,7 @@ fun VacancyCardPreview() {
     VacancyCard(
         VacancyItem(
             id = "",
-            lookingNumber = "Сейчас просматривает 3 ${getDeclination(3,"человек")}",
+            lookingNumber = "Сейчас просматривает 3 ${getDeclination(3, "человек")}",
             title = "UI/UX Designer",
             address = AddressItem(town = "Минск", street = "улица Бирюзова", house = "4/5"),
             company = "Мобирикс",

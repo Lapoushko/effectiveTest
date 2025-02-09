@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.lapoushko.effectivetest.detail.VacancyDetailScreen
 import com.lapoushko.effectivetest.favourite.FavouriteScreen
+import com.lapoushko.effectivetest.favourite.FavouriteScreenHandler
 import com.lapoushko.effectivetest.main.MainScreen
 import com.lapoushko.effectivetest.main.MainScreenHandler
 import com.lapoushko.effectivetest.message.MessageScreen
@@ -36,7 +37,9 @@ fun BottomNavigationGraph(navController: NavHostController){
             )
         }
         composable(route = ScreenBar.Favourite.route) {
-            FavouriteScreen()
+            FavouriteScreen(
+                handler = FavouriteScreenHandler(navController)
+            )
         }
         composable(route = ScreenBar.Respond.route) {
             RespondScreen()

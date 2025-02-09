@@ -1,5 +1,7 @@
 package com.lapoushko.domain.di
 
+import com.lapoushko.domain.repo.OfferRepository
+import com.lapoushko.domain.repo.VacancyRepository
 import com.lapoushko.domain.usecase.SubscribeOfferUseCase
 import com.lapoushko.domain.usecase.SubscribeOfferUseCaseImpl
 import com.lapoushko.domain.usecase.SubscribeVacancyUseCase
@@ -18,13 +20,17 @@ import javax.inject.Singleton
 object UsecaseModule {
     @Singleton
     @Provides
-    fun provideSubscribeVacancyUseCase() : SubscribeVacancyUseCase {
-        return SubscribeVacancyUseCaseImpl()
+    fun provideSubscribeVacancyUseCase(
+        repo: VacancyRepository
+    ) : SubscribeVacancyUseCase {
+        return SubscribeVacancyUseCaseImpl(repo)
     }
 
     @Singleton
     @Provides
-    fun provideSubscribeOfferUseCase() : SubscribeOfferUseCase {
-        return SubscribeOfferUseCaseImpl()
+    fun provideSubscribeOfferUseCase(
+        repo: OfferRepository
+    ) : SubscribeOfferUseCase {
+        return SubscribeOfferUseCaseImpl(repo)
     }
 }

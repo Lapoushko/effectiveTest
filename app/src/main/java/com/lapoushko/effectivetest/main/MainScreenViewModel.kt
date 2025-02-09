@@ -35,7 +35,7 @@ class MainScreenViewModel @Inject constructor(
 
     private fun loadVacancies(){
         viewModelScope.launch {
-            _state.vacancies = vacancyUseCase.getVacancies().map { vacancyMapper.toUi(it) }
+            _state.vacancies = vacancyUseCase.getVacancies().map { vacancyMapper.toUi(it) }.take(3)
         }
     }
 

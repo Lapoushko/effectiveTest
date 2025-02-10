@@ -13,6 +13,8 @@ import com.lapoushko.effectivetest.mapper.VacancyMapper
 import com.lapoushko.effectivetest.model.OfferItem
 import com.lapoushko.effectivetest.model.VacancyItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -35,10 +37,20 @@ class MainScreenViewModel @Inject constructor(
     }
 
     private fun loadVacancies(){
-        viewModelScope.launch {
-            val vacancies = vacancyUseCase.getVacancies().map { vacancyMapper.toUi(it) }
+        vacancyUseCase.getVacancies().onEach{ vacancy ->
+            val vacancies = vacancy.map { vacancyMapper.toUi(it) }
             _state.vacancies = vacancies.take(3)
             _state.countVacancies = vacancies.size
+        }.launchIn(viewModelScope)
+    }
+
+    fun handleVacancySave(vacancy: VacancyItem){
+        viewModelScope.launch {
+            if (vacancy.isFavourite){
+                vacancyUseCase.unsaveVacancy(vacancyMapper.toDomain(vacancy))
+            } else{
+                vacancyUseCase.saveVacancy(vacancyMapper.toDomain(vacancy))
+            }
         }
     }
 

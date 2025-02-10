@@ -23,3 +23,5 @@ rootProject.name = "effectiveTest"
 include(":app")
 include(":domain")
 include(":data")
+include(":data:network")
+include(":data:storage")

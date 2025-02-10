@@ -12,4 +12,5 @@ class Vacancy(
     val experience: Experience,
     val publishDate: String,
     val salary: String,
+    val isFavourite: Boolean
 )

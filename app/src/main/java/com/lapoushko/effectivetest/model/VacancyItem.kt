@@ -18,4 +18,5 @@ data class VacancyItem(
     val experience: ExperienceItem,
     val publishDate: String,
     val salary: String,
+    val isFavourite: Boolean
 ) : Parcelable

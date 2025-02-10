@@ -7,8 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,51 +37,55 @@ fun FavouriteScreen(
     Scaffold(
         containerColor = Black,
     ) { innerPadding ->
-        Column(
+        LazyColumn(
             verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
                 .padding(innerPadding),
         ) {
-            Column {
-                Column(
-                    modifier = Modifier
-                        .padding(horizontal = standardPadding),
-                    verticalArrangement = Arrangement.spacedBy(standardPadding)
-                ) {
+            item {
+                Column {
+                    Column(
+                        modifier = Modifier
+                            .padding(horizontal = standardPadding),
+                        verticalArrangement = Arrangement.spacedBy(standardPadding)
+                    ) {
+                        Spacer(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(32.dp)
+                        )
+                        Text(text = "Избранное", style = Typography.titleMedium, color = White)
+                    }
                     Spacer(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(32.dp)
+                            .height(24.dp)
                     )
-                    Text(text = "Избранное", style = Typography.titleMedium, color = White)
-                }
-                Spacer(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(24.dp)
-                )
-                Column(
-                    modifier = Modifier
-                        .padding(innerPadding)
-                        .padding(horizontal = standardPadding),
-                    verticalArrangement = Arrangement.spacedBy(standardPadding)
-                ) {
-                    Text(
-                        "${vacancies.size} ${getDeclination(vacancies.size, "вакансия")}",
-                        style = Typography.bodyMedium,
-                        color = Grey3
-                    )
-                    vacancies.forEach { vacancy ->
-                        VacancyCard(vacancy, onClick = {handler.onToDetail(vacancy)})
+                    Column(
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .padding(horizontal = standardPadding),
+                        verticalArrangement = Arrangement.spacedBy(standardPadding)
+                    ) {
+                        Text(
+                            "${vacancies.size} ${getDeclination(vacancies.size, "вакансия")}",
+                            style = Typography.bodyMedium,
+                            color = Grey3
+                        )
+                        vacancies.forEach { vacancy ->
+                            VacancyCard(
+                                vacancy, onClick = { handler.onToDetail(vacancy) },
+                                onFavouriteClick = { viewModel.saveVacancy(vacancy) }
+                            )
+                        }
                     }
+                    Spacer(
+                        Modifier
+                            .fillMaxWidth()
+                            .height(24.dp)
+                    )
                 }
-                Spacer(
-                    Modifier
-                        .fillMaxWidth()
-                        .height(24.dp)
-                )
             }
         }
     }

@@ -108,7 +108,7 @@ fun VacancyCard(
                         style = Typography.bodyMedium
                     )
                 }
-                Text(text = publishDate, color = Grey3, style = Typography.bodyMedium)
+                Text(text = "Опубликовано ${formatDate(publishDate)}", color = Grey3, style = Typography.bodyMedium)
             }
         }
         Spacer(

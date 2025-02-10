@@ -29,7 +29,7 @@ data class VacancyResponse(
     @Json(name = "responsibilities")
     val responsibilities: String? = null,
     @Json(name = "salary")
-    val salary: com.lapoushko.network.entity.Salary? = null,
+    val salary: Salary? = null,
     @Json(name = "schedules")
     val schedules: List<String?>? = null,
     @Json(name = "title")

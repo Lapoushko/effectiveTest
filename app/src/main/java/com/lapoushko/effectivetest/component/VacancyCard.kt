@@ -18,6 +18,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -29,6 +30,8 @@ import com.lapoushko.effectivetest.model.VacancyItem
 import com.lapoushko.effectivetest.ui.theme.Green
 import com.lapoushko.effectivetest.ui.theme.Grey1
 import com.lapoushko.effectivetest.ui.theme.Grey3
+import com.lapoushko.effectivetest.ui.theme.Grey4
+import com.lapoushko.effectivetest.ui.theme.SpecialBlue
 import com.lapoushko.effectivetest.ui.theme.Typography
 import com.lapoushko.effectivetest.ui.theme.White
 import com.lapoushko.effectivetest.ui.theme.standardPadding
@@ -41,7 +44,8 @@ import com.lapoushko.effectivetest.util.getDeclination
 @Composable
 fun VacancyCard(
     vacancyItem: VacancyItem,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onFavouriteClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -64,11 +68,7 @@ fun VacancyCard(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(text = lookingNumber, color = Green, style = Typography.bodyMedium)
-                        Icon(
-                            modifier = Modifier.size(24.dp).clickable { onClick() },
-                            contentDescription = null,
-                            painter = painterResource(R.drawable.favourite_not_active)
-                        )
+                        IconFavourite(onClick = { onFavouriteClick() }, isFavourite = isFavourite)
                     }
                 }
                 Row(
@@ -77,11 +77,7 @@ fun VacancyCard(
                 ) {
                     Text(text = title, color = White, style = Typography.titleSmall)
                     if (lookingNumber.isEmpty()) {
-                        Icon(
-                            modifier = Modifier.size(24.dp).clickable { onClick() },
-                            contentDescription = null,
-                            painter = painterResource(R.drawable.favourite_not_active)
-                        )
+                        IconFavourite(onClick = { onFavouriteClick() }, isFavourite = isFavourite)
                     }
                 }
                 if (salary.isNotEmpty()) {
@@ -130,11 +126,36 @@ fun VacancyCard(
                 contentColor = White
             ),
             shape = RoundedCornerShape(50.dp),
-            onClick = {onClick()}
+            onClick = { onClick() }
         ) {
             Text(text = "Откликнуться", style = Typography.bodyMedium)
         }
     }
+}
+
+@Composable
+private fun IconFavourite(
+    onClick: () -> Unit,
+    isFavourite: Boolean
+) {
+    val tint = remember(isFavourite) {
+        if (isFavourite) SpecialBlue else Grey4
+    }
+
+    val painter = if (isFavourite) {
+        painterResource(R.drawable.favourite_active)
+    } else {
+        painterResource(R.drawable.favourite_not_active)
+    }
+
+    Icon(
+        modifier = Modifier
+            .size(24.dp)
+            .clickable { onClick() },
+        contentDescription = null,
+        painter = painter,
+        tint = tint
+    )
 }
 
 @Preview
@@ -143,14 +164,16 @@ fun VacancyCardPreview() {
     VacancyCard(
         VacancyItem(
             id = "",
-            lookingNumber = "Сейчас просматривает 3 ${getDeclination(3,"человек")}",
+            lookingNumber = "Сейчас просматривает 3 ${getDeclination(3, "человек")}",
             title = "UI/UX Designer",
             address = AddressItem(town = "Минск", street = "улица Бирюзова", house = "4/5"),
             company = "Мобирикс",
             experience = ExperienceItem("Опыт от 1 до 3 лет", "1–3 года"),
             publishDate = "Опубликовано ${formatDate("2024-02-20")}",
-            salary = "1500-2900 Br"
+            salary = "1500-2900 Br",
+            isFavourite = false
         ),
-        onClick = {}
+        onClick = {},
+        onFavouriteClick = {}
     )
 }

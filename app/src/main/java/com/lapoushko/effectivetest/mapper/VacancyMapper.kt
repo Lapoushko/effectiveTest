@@ -43,7 +43,8 @@ class VacancyMapperImpl @Inject constructor() : VacancyMapper {
                     text = experience.text
                 ),
                 publishDate = publishDate,
-                salary = salary
+                salary = salary,
+                isFavourite = isFavourite
             )
         }
     }
@@ -65,7 +66,8 @@ class VacancyMapperImpl @Inject constructor() : VacancyMapper {
                     text = experience.text
                 ),
                 publishDate = publishDate,
-                salary = salary
+                salary = salary,
+                isFavourite = isFavourite
             )
         }
     }

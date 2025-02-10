@@ -6,7 +6,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -79,14 +83,13 @@ fun BottomBar(
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val destination = navBackStackEntry?.destination
 
-//    val countQueries by viewModel?.countQueries?.collectAsState(initial = 0)
-//        ?: remember { mutableIntStateOf(0) }
+    val countQueries by viewModel?.countQueries?.collectAsState(initial = 0)
+        ?: remember { mutableIntStateOf(0) }
 
 
     NavigationBar {
         items.forEach { screen ->
-//            val badges by derivedStateOf { if (screen == ScreenBar.Main) countQueries else 0 }
-            val badges = 0
+            val badges by derivedStateOf { if (screen == ScreenBar.Favourite) countQueries else 0 }
             AddItem(
                 screen = screen,
                 destination = destination,

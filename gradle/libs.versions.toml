@@ -1,6 +1,5 @@
 [versions]
 agp = "8.7.3"
-converterGson = "2.11.0"
 kotlin = "2.0.0"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -17,8 +16,7 @@ hiltAndroidCompiler = "2.51.1"
 hiltNavigationCompose = "1.2.0"
 kotlinxSerializationJsonJvm = "1.6.3"
 jetbrainsKotlinJvm = "2.0.0"
-retrofit = "2.11.0"
-retrofitConverter = "2.11.0"
+roomRuntime = "2.6.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -43,6 +41,10 @@ kotlinx-serialization-json-jvm = { module = "org.jetbrains.kotlinx:kotlinx-seria
 
 moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshiKotlin" }
+
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

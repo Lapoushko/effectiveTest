@@ -1,6 +1,7 @@
 package com.lapoushko.effectivetest.main
 
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
@@ -12,6 +13,8 @@ import com.lapoushko.effectivetest.mapper.VacancyMapper
 import com.lapoushko.effectivetest.model.OfferItem
 import com.lapoushko.effectivetest.model.VacancyItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,8 +37,20 @@ class MainScreenViewModel @Inject constructor(
     }
 
     private fun loadVacancies(){
+        vacancyUseCase.getVacancies().onEach{ vacancy ->
+            val vacancies = vacancy.map { vacancyMapper.toUi(it) }
+            _state.vacancies = vacancies.take(3)
+            _state.countVacancies = vacancies.size
+        }.launchIn(viewModelScope)
+    }
+
+    fun handleVacancySave(vacancy: VacancyItem){
         viewModelScope.launch {
-            _state.vacancies = vacancyUseCase.getVacancies().map { vacancyMapper.toUi(it) }.take(3)
+            if (vacancy.isFavourite){
+                vacancyUseCase.unsaveVacancy(vacancyMapper.toDomain(vacancy))
+            } else{
+                vacancyUseCase.saveVacancy(vacancyMapper.toDomain(vacancy))
+            }
         }
     }
 
@@ -48,6 +63,7 @@ class MainScreenViewModel @Inject constructor(
 
     private class MutableMainScreenState : MainScreenState {
         override var vacancies: List<VacancyItem> by mutableStateOf(emptyList())
+        override var countVacancies: Int by mutableIntStateOf(0)
         override var offers: List<OfferItem> by mutableStateOf(emptyList())
     }
 }

@@ -9,6 +9,8 @@ import com.lapoushko.domain.usecase.SubscribeVacancyUseCase
 import com.lapoushko.effectivetest.mapper.VacancyMapper
 import com.lapoushko.effectivetest.model.VacancyItem
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -28,8 +30,19 @@ class FavouriteScreenViewModel @Inject constructor(
     }
 
     private fun loadVacancies(){
+        vacancyUseCase.getVacanciesFromDb().onEach{ vacancy ->
+            val vacancies = vacancy.map { vacancyMapper.toUi(it) }
+            _state.vacancies = vacancies
+        }.launchIn(viewModelScope)
+    }
+
+    fun saveVacancy(vacancy: VacancyItem){
         viewModelScope.launch {
-            _state.vacancies = vacancyUseCase.getVacancies().map { vacancyMapper.toUi(it) }
+            if (vacancy.isFavourite){
+                vacancyUseCase.unsaveVacancy(vacancyMapper.toDomain(vacancy))
+            } else{
+                vacancyUseCase.saveVacancy(vacancyMapper.toDomain(vacancy))
+            }
         }
     }
 

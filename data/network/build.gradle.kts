@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -39,7 +41,17 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
 
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.okhttp)
+
+    //DI
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+
     //MoShi
     implementation(libs.moshi)
     implementation(libs.moshi.kotlin)
+    implementation(libs.retrofit2converter.moshi)
 }

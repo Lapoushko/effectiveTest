@@ -2,6 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.dagger.hilt.android")
+    id("com.google.devtools.ksp")
+    id("kotlin-parcelize")
+    kotlin("plugin.serialization") version "2.0.0"
 }
 
 android {
@@ -10,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "com.lapoushko.effectivetest"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -56,4 +60,19 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //Navigation
+    implementation(libs.androidx.navigation.compose)
+
+    //Serialization
+    implementation(libs.kotlinx.serialization.json.jvm)
+
+    //Layers
+    implementation(project(":domain"))
+    implementation(project(":data"))
+
+    //DI
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
 }

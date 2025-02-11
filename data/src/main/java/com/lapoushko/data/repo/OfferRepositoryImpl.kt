@@ -4,25 +4,24 @@ import com.lapoushko.data.mapper.OfferResponseMapper
 import com.lapoushko.domain.entity.Offer
 import com.lapoushko.domain.repo.OfferRepository
 import com.lapoushko.network.entity.OfferResponse
-import com.lapoushko.network.service.DataService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.lapoushko.network.util.JsonDownloader
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 /**
  * @author Lapoushko
  */
 class OfferRepositoryImpl @Inject constructor(
-    private val dataService: DataService,
+    private val jsonDownloader: JsonDownloader,
     private val mapper: OfferResponseMapper
 ) : OfferRepository {
-    override suspend fun getOffers(): List<Offer> {
-        return withContext(Dispatchers.IO) {
-            dataService.getResponse()?.offerResponses?.map {
-                mapper.toDomain(
-                    it ?: OfferResponse()
-                )
+    override fun getOffers(): Flow<List<Offer>> = flow {
+        jsonDownloader.getResponse().collect { response ->
+            val offers = response?.offerResponses?.map {
+                mapper.toDomain(it ?: OfferResponse())
             } ?: emptyList()
+            emit(offers)
         }
     }
 }

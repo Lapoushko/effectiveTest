@@ -41,13 +41,11 @@ class SelectionScreenViewModel @Inject constructor(
 
     fun handleVacancySave(vacancy: VacancyItem) {
         viewModelScope.launch {
-            _state.status = StatusLoading.LOADING
             if (vacancy.isFavourite){
                 vacancyUseCase.unsaveVacancy(vacancyMapper.toDomain(vacancy))
             } else{
                 vacancyUseCase.saveVacancy(vacancyMapper.toDomain(vacancy.copy(isFavourite = true)))
             }
-            loadVacancies()
         }
     }
 

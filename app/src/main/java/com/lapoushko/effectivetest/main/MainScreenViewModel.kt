@@ -54,7 +54,6 @@ class MainScreenViewModel @Inject constructor(
             } else{
                 vacancyUseCase.saveVacancy(vacancyMapper.toDomain(vacancy.copy(isFavourite = true)))
             }
-            loadVacancies()
         }
     }
 

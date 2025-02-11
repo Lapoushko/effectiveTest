@@ -53,7 +53,7 @@ fun VacancyCard(
     Card(
         modifier = Modifier
             .fillMaxWidth(),
-        onClick = {},
+        onClick = { onClick() },
         colors = CardDefaults.cardColors(
             containerColor = Grey1
         )

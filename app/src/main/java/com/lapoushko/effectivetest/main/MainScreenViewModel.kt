@@ -35,8 +35,9 @@ class MainScreenViewModel @Inject constructor(
         loadOffers()
     }
 
-    private fun loadVacancies() {
+    fun loadVacancies() {
         viewModelScope.launch {
+            _state.status = StatusLoading.LOADING
             vacancyUseCase.getVacancies().collect{ vacancies ->
                 val vacs = vacancies.map { vacancyMapper.toUi(it) }
                 _state.vacancies = vacs.take(3)

@@ -28,8 +28,9 @@ class SelectionScreenViewModel @Inject constructor(
         loadVacancies()
     }
 
-    private fun loadVacancies() {
+    fun loadVacancies() {
         viewModelScope.launch {
+            _state.status = StatusLoading.LOADING
             vacancyUseCase.getVacancies().collect{ vacancies ->
                 val vacs = vacancies.map { vacancyMapper.toUi(it) }
                 _state.vacancies = vacs
@@ -40,6 +41,7 @@ class SelectionScreenViewModel @Inject constructor(
 
     fun handleVacancySave(vacancy: VacancyItem) {
         viewModelScope.launch {
+            _state.status = StatusLoading.LOADING
             if (vacancy.isFavourite){
                 vacancyUseCase.unsaveVacancy(vacancyMapper.toDomain(vacancy))
             } else{

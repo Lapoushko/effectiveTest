@@ -76,7 +76,7 @@ fun FavouriteScreen(
                         vacancies.forEach { vacancy ->
                             VacancyCard(
                                 vacancy, onClick = { handler.onToDetail(vacancy) },
-                                onFavouriteClick = { viewModel.saveVacancy(vacancy) }
+                                onFavouriteClick = { viewModel.unsaveVacancy(vacancy) }
                             )
                         }
                     }

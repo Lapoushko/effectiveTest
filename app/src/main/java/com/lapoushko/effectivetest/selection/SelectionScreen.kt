@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -28,6 +30,7 @@ import com.lapoushko.effectivetest.ui.theme.Typography
 import com.lapoushko.effectivetest.ui.theme.White
 import com.lapoushko.effectivetest.ui.theme.sizeIcon
 import com.lapoushko.effectivetest.ui.theme.standardPadding
+import com.lapoushko.effectivetest.util.StatusLoading
 import com.lapoushko.effectivetest.util.getDeclination
 
 /**
@@ -40,87 +43,101 @@ fun SelectionScreen(
     handler: SelectionScreenHandler
 ) {
     val vacancies = viewModel.state.vacancies
+    val status = viewModel.state.status
+
     Scaffold(
         containerColor = Black,
     ) { innerPadding ->
-        LazyColumn(
-            verticalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
-        ) {
-            item {
-                Column {
-                    Column(
-                        modifier = Modifier
-                            .padding(horizontal = standardPadding),
-                        verticalArrangement = Arrangement.spacedBy(standardPadding)
-                    ) {
-                        CustomSearchBar(
-                            text = "Должность по подходящим вакансиям",
-                            leadingIcon = {
-                                Icon(
-                                    painterResource(R.drawable.arrow_back),
-                                    contentDescription = null,
-                                    modifier = Modifier
-                                        .size(sizeIcon)
-                                        .clickable { handler.onToBack() },
-                                    tint = White
-                                )
-                            }
-                        )
-
-                        Row(
+        if (status == StatusLoading.LOADING){
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                CircularProgressIndicator(color = SpecialBlue)
+            }
+        } else{
+            LazyColumn(
+                verticalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+            ) {
+                item {
+                    Column {
+                        Column(
                             modifier = Modifier
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
+                                .padding(horizontal = standardPadding),
+                            verticalArrangement = Arrangement.spacedBy(standardPadding)
                         ) {
-                            Text(
-                                "${vacancies.size} ${getDeclination(vacancies.size, "вакансия")}",
-                                style = Typography.bodyMedium,
-                                color = White
+                            CustomSearchBar(
+                                text = "Должность по подходящим вакансиям",
+                                leadingIcon = {
+                                    Icon(
+                                        painterResource(R.drawable.arrow_back),
+                                        contentDescription = null,
+                                        modifier = Modifier
+                                            .size(sizeIcon)
+                                            .clickable { handler.onToBack() },
+                                        tint = White
+                                    )
+                                }
                             )
+
                             Row(
-                                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Text(
-                                    text = "По соответствию",
+                                    "${vacancies.size} ${getDeclination(vacancies.size, "вакансия")}",
                                     style = Typography.bodyMedium,
-                                    color = SpecialBlue
+                                    color = White
                                 )
-                                Icon(
-                                    modifier = Modifier.size(16.dp),
-                                    painter = painterResource(R.drawable.sort_arrows),
-                                    contentDescription = null,
-                                    tint = SpecialBlue
+                                Row(
+                                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                ) {
+                                    Text(
+                                        text = "По соответствию",
+                                        style = Typography.bodyMedium,
+                                        color = SpecialBlue
+                                    )
+                                    Icon(
+                                        modifier = Modifier.size(16.dp),
+                                        painter = painterResource(R.drawable.sort_arrows),
+                                        contentDescription = null,
+                                        tint = SpecialBlue
+                                    )
+                                }
+                            }
+                        }
+                        Spacer(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(32.dp)
+                        )
+                        Column(
+                            modifier = Modifier
+                                .padding(innerPadding)
+                                .padding(horizontal = standardPadding),
+                            verticalArrangement = Arrangement.spacedBy(standardPadding)
+                        ) {
+                            Text("Вакансии для вас", style = Typography.titleMedium, color = White)
+                            vacancies.forEach { vacancy ->
+                                VacancyCard(
+                                    vacancy, onClick = { handler.onToDetail(vacancy) },
+                                    onFavouriteClick = { viewModel.handleVacancySave(vacancy) }
                                 )
                             }
                         }
+                        Spacer(
+                            Modifier
+                                .fillMaxWidth()
+                                .height(24.dp)
+                        )
                     }
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(32.dp)
-                    )
-                    Column(
-                        modifier = Modifier
-                            .padding(innerPadding)
-                            .padding(horizontal = standardPadding),
-                        verticalArrangement = Arrangement.spacedBy(standardPadding)
-                    ) {
-                        Text("Вакансии для вас", style = Typography.titleMedium, color = White)
-                        vacancies.forEach { vacancy ->
-                            VacancyCard(
-                                vacancy, onClick = { handler.onToDetail(vacancy) },
-                                onFavouriteClick = { viewModel.saveVacancy(vacancy) }
-                            )
-                        }
-                    }
-                    Spacer(
-                        Modifier
-                            .fillMaxWidth()
-                            .height(24.dp)
-                    )
                 }
             }
         }

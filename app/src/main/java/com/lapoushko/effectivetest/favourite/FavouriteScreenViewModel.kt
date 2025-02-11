@@ -36,13 +36,10 @@ class FavouriteScreenViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-    fun saveVacancy(vacancy: VacancyItem){
+    fun unsaveVacancy(vacancy: VacancyItem){
         viewModelScope.launch {
-            if (vacancy.isFavourite){
-                vacancyUseCase.unsaveVacancy(vacancyMapper.toDomain(vacancy))
-            } else{
-                vacancyUseCase.saveVacancy(vacancyMapper.toDomain(vacancy))
-            }
+            vacancyUseCase.unsaveVacancy(vacancyMapper.toDomain(vacancy.copy(isFavourite = false)))
+            _state.vacancies = _state.vacancies.filterNot { it == vacancy }
         }
     }
 

@@ -18,7 +18,10 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,7 +53,7 @@ fun VacancyCard(
     Card(
         modifier = Modifier
             .fillMaxWidth(),
-        onClick = {},
+        onClick = { onClick() },
         colors = CardDefaults.cardColors(
             containerColor = Grey1
         )
@@ -108,7 +111,11 @@ fun VacancyCard(
                         style = Typography.bodyMedium
                     )
                 }
-                Text(text = publishDate, color = Grey3, style = Typography.bodyMedium)
+                Text(
+                    text = "Опубликовано ${formatDate(publishDate)}",
+                    color = Grey3,
+                    style = Typography.bodyMedium
+                )
             }
         }
         Spacer(
@@ -138,11 +145,13 @@ private fun IconFavourite(
     onClick: () -> Unit,
     isFavourite: Boolean
 ) {
-    val tint = remember(isFavourite) {
-        if (isFavourite) SpecialBlue else Grey4
+    var isFav by remember { mutableStateOf(isFavourite) }
+
+    val tint = remember(isFav) {
+        if (isFav) SpecialBlue else Grey4
     }
 
-    val painter = if (isFavourite) {
+    val painter = if (isFav) {
         painterResource(R.drawable.favourite_active)
     } else {
         painterResource(R.drawable.favourite_not_active)
@@ -151,7 +160,10 @@ private fun IconFavourite(
     Icon(
         modifier = Modifier
             .size(24.dp)
-            .clickable { onClick() },
+            .clickable {
+                onClick()
+                isFav = !isFav
+            },
         contentDescription = null,
         painter = painter,
         tint = tint

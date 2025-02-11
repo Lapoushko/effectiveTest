@@ -1,13 +1,15 @@
 package com.lapoushko.network.service
 
-import com.lapoushko.network.entity.DataResponse
+import okhttp3.ResponseBody
+import retrofit2.Response
+import retrofit2.http.GET
+import retrofit2.http.Streaming
 
 /**
  * @author Lapoushko
  */
 interface DataService {
-//    @GET("mockdata.json")
-//    fun getData(): DataResponse
-
-    suspend fun getResponse(): DataResponse?
+    @Streaming
+    @GET("/u/0/uc?id=1z4TbeDkbfXkvgpoJprXbN85uCcD7f00r&export=download")
+    suspend fun downloadFile(): Response<ResponseBody>
 }

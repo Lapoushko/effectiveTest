@@ -4,10 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.lapoushko.domain.usecase.SubscribeVacancyUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -15,13 +14,17 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class BottomBarScreenViewModel @Inject constructor(
-    useCase: SubscribeVacancyUseCase
-) : ViewModel(){
-    val countQueries: StateFlow<Int> = useCase.getVacanciesFromDb()
-        .map { it.size }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.Lazily,
-            initialValue = 0
-        )
+    private val useCase: SubscribeVacancyUseCase
+) : ViewModel() {
+
+    private val _countQueries = MutableStateFlow(0)
+    val countQueries = _countQueries.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            useCase.getVacanciesFromDb().collect { vacancies ->
+                _countQueries.value = vacancies.size
+            }
+        }
+    }
 }

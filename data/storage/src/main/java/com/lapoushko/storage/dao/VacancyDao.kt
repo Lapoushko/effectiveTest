@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.lapoushko.storage.entity.VacancyDb
+import kotlinx.coroutines.flow.Flow
 
 /**
  * @author Lapoushko
@@ -21,5 +22,5 @@ interface VacancyDao {
     suspend fun getVacancy(id: String) : VacancyDb?
 
     @Query("SELECT * FROM vacancy")
-    suspend fun getVacancies() : List<VacancyDb>?
+    fun getVacancies() : Flow<List<VacancyDb>>?
 }

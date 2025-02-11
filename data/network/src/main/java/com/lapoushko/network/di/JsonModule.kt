@@ -1,8 +1,9 @@
-package com.lapoushko.data.di
+package com.lapoushko.network.di
 
 import android.content.Context
-import com.lapoushko.data.service.DataServiceImpl
 import com.lapoushko.network.service.DataService
+import com.lapoushko.network.util.JsonDownloader
+import com.lapoushko.network.util.JsonDownloaderImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,11 +15,13 @@ import dagger.hilt.components.SingletonComponent
  */
 @Module
 @InstallIn(SingletonComponent::class)
-object ServiceModule {
+object JsonModule {
+
     @Provides
-    fun provideDataService(
-        @ApplicationContext context: Context,
-    ): DataService{
-        return DataServiceImpl(context)
+    fun provideJsonDownloader(
+        dataService: DataService,
+        @ApplicationContext context: Context
+    ) : JsonDownloader{
+        return JsonDownloaderImpl(dataService, context)
     }
 }

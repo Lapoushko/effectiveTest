@@ -12,9 +12,8 @@ import com.lapoushko.effectivetest.mapper.OfferMapper
 import com.lapoushko.effectivetest.mapper.VacancyMapper
 import com.lapoushko.effectivetest.model.OfferItem
 import com.lapoushko.effectivetest.model.VacancyItem
+import com.lapoushko.effectivetest.util.StatusLoading
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,34 +35,40 @@ class MainScreenViewModel @Inject constructor(
         loadOffers()
     }
 
-    private fun loadVacancies(){
-        vacancyUseCase.getVacancies().onEach{ vacancy ->
-            val vacancies = vacancy.map { vacancyMapper.toUi(it) }
-            _state.vacancies = vacancies.take(3)
-            _state.countVacancies = vacancies.size
-        }.launchIn(viewModelScope)
-    }
-
-    fun handleVacancySave(vacancy: VacancyItem){
+    fun loadVacancies() {
         viewModelScope.launch {
-            if (vacancy.isFavourite){
-                vacancyUseCase.unsaveVacancy(vacancyMapper.toDomain(vacancy))
-            } else{
-                vacancyUseCase.saveVacancy(vacancyMapper.toDomain(vacancy))
+            _state.status = StatusLoading.LOADING
+            vacancyUseCase.getVacancies().collect{ vacancies ->
+                val vacs = vacancies.map { vacancyMapper.toUi(it) }
+                _state.vacancies = vacs.take(3)
+                _state.countVacancies = vacs.size
+                _state.status = StatusLoading.SUCCESS
             }
         }
     }
 
-    private fun loadOffers(){
+    fun handleVacancySave(vacancy: VacancyItem) {
         viewModelScope.launch {
-            _state.offers = offerUseCase.getOffers().map { offerMapper.toUi(it) }
+            if (vacancy.isFavourite){
+                vacancyUseCase.unsaveVacancy(vacancyMapper.toDomain(vacancy))
+            } else{
+                vacancyUseCase.saveVacancy(vacancyMapper.toDomain(vacancy.copy(isFavourite = true)))
+            }
         }
+    }
 
+    private fun loadOffers() {
+        viewModelScope.launch {
+            offerUseCase.getOffers().collect{ offers ->
+                _state.offers = offers.map { offerMapper.toUi(it) }
+            }
+        }
     }
 
     private class MutableMainScreenState : MainScreenState {
         override var vacancies: List<VacancyItem> by mutableStateOf(emptyList())
         override var countVacancies: Int by mutableIntStateOf(0)
         override var offers: List<OfferItem> by mutableStateOf(emptyList())
+        override var status: StatusLoading by mutableStateOf(StatusLoading.LOADING)
     }
 }

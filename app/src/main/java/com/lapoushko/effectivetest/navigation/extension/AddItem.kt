@@ -19,10 +19,10 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import com.lapoushko.common.theme.Grey4
+import com.lapoushko.common.theme.SpecialBlue
+import com.lapoushko.common.theme.Typography
 import com.lapoushko.effectivetest.navigation.model.ScreenBar
-import com.lapoushko.effectivetest.ui.theme.Grey4
-import com.lapoushko.effectivetest.ui.theme.SpecialBlue
-import com.lapoushko.effectivetest.ui.theme.Typography
 
 /**
  * @author Lapoushko

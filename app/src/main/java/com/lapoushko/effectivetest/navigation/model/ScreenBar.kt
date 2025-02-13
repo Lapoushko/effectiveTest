@@ -1,6 +1,6 @@
 package com.lapoushko.effectivetest.navigation.model
 
-import com.lapoushko.effectivetest.R
+import  com.lapoushko.common.R
 import kotlinx.serialization.Serializable
 
 /**
@@ -12,16 +12,16 @@ sealed class ScreenBar(
     val title: String,
     val setIcon: Int,
     val unsetIcon: Int? = null
-){
+) {
     @Serializable
-    data object Main: ScreenBar(
+    data object Main : ScreenBar(
         route = MAIN_ROUTE,
         title = MAIN_TITLE,
         setIcon = MAIN_SET_ICON
     )
 
     @Serializable
-    data object Favourite: ScreenBar(
+    data object Favourite : ScreenBar(
         route = FAVOURITE_ROUTE,
         title = FAVOURITE_TITLE,
         setIcon = FAVOURITE_SET_ICON,
@@ -29,27 +29,27 @@ sealed class ScreenBar(
     )
 
     @Serializable
-    data object Respond: ScreenBar(
+    data object Respond : ScreenBar(
         route = RESPOND_ROUTE,
         title = RESPOND_TITLE,
         setIcon = RESPOND_SET_ICON,
     )
 
     @Serializable
-    data object Message: ScreenBar(
+    data object Message : ScreenBar(
         route = MESSAGE_ROUTE,
         title = MESSAGE_TITLE,
         setIcon = MESSAGE_SET_ICON,
     )
 
     @Serializable
-    data object Profile: ScreenBar(
+    data object Profile : ScreenBar(
         route = PROFILE_ROUTE,
         title = PROFILE_TITLE,
         setIcon = PROFILE_SET_ICON,
     )
 
-    companion object{
+    companion object {
         private const val MAIN_ROUTE = "main"
         private const val MAIN_TITLE = "Поиск"
         private val MAIN_SET_ICON = R.drawable.search_button

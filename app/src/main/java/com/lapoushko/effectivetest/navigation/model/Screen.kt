@@ -1,6 +1,6 @@
 package com.lapoushko.effectivetest.navigation.model
 
-import com.lapoushko.effectivetest.model.VacancyItem
+import com.lapoushko.feature.model.VacancyItem
 import kotlinx.serialization.Serializable
 
 /**

@@ -9,16 +9,15 @@ import com.lapoushko.domain.usecase.SubscribeVacancyUseCaseImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
+import dagger.hilt.android.components.ViewModelComponent
 
 /**
  * @author Lapoushko
  */
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ViewModelComponent::class)
 object UsecaseModule {
-    @Singleton
+   
     @Provides
     fun provideSubscribeVacancyUseCase(
         repo: VacancyRepository
@@ -26,7 +25,6 @@ object UsecaseModule {
         return SubscribeVacancyUseCaseImpl(repo)
     }
 
-    @Singleton
     @Provides
     fun provideSubscribeOfferUseCase(
         repo: OfferRepository

@@ -53,6 +53,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -69,7 +70,14 @@ dependencies {
 
     //Layers
     implementation(project(":domain"))
+    implementation(project(":common"))
     implementation(project(":data"))
+    implementation(project(":feature"))
+    implementation(project(":feature:favourite"))
+    implementation(project(":feature:home"))
+    implementation(project(":feature:selection"))
+    implementation(project(":feature:detail"))
+
 
     //DI
     implementation(libs.hilt.android)
